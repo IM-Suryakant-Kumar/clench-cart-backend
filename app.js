@@ -1,11 +1,11 @@
-require("express-async-errors")
 require("dotenv").config()
+require("express-async-errors")
 
 const express = require("express")
 const app = express()
 
-// const connectDB = require("./db/connect")
-
+const connectDB = require("./db/connect")
+const authenticateUser = require("./middleware/authentication")
 // routers
 const productsRouter = require("./routes/products")
 const authRouter = require("./routes/auth")
@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 })
 
 // routes
-app.use("/api/v1/products", productsRouter)
+app.use("/api/v1/products", authenticateUser, productsRouter)
 app.use("/api/v1/auth", authRouter)
 
 
@@ -32,7 +32,7 @@ const port = process.env.PORT || 3000
 
 const start = async () => {
 	try {
-        // await connectDB(process.env.MONGO_URI)
+        await connectDB(process.env.MONGO_URI)
 		app.listen(port, () =>
 			console.log(`Server is listening on port ${port}`)
 		)
