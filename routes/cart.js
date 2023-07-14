@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Roouter();
+const router = express.Router();
 const {
 	createCart,
 	getUserCarts,
