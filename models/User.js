@@ -34,7 +34,7 @@ UserSchema.pre("save", async function () {
 	this.password = await bcrypt.hash(this.password, salt)
 })
 
-UserSchema.methods.createJWT = function () {
+UserSchema.methods.createJWTToken = function () {
 	return jwt.sign(
 		{ userId: this._id, name: this.name },
 		process.env.JWT_SECRET,
@@ -47,17 +47,3 @@ UserSchema.methods.comparePassword = async function (candidatePassword) {
 }
 
 module.exports = mongoose.model("User", UserSchema)
-
-// const mongoose = require("mongoose");
-
-// const UserSchema = new mongoose.Schema(
-// 	{
-// 		username: { type: String, required: true },
-// 		email: { type: String, required: true, unique: true },
-// 		password: { type: String, required: true },
-// 		isAdmin: { type: Boolean, default: false }
-// 	},
-// 	{ timestamps: true }
-// );
-
-// module.exports = mongoose.model("User", UserSchema)
