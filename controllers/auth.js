@@ -3,8 +3,13 @@ const { StatusCodes } = require("http-status-codes")
 const CustomError = require("../errors")
 const { createTokenUser } = require("../utils")
 
+// REGISTER
 const register = async (req, res) => {
     const { name, email, password } = req.body
+
+    if(!(name && email && password)) { 
+        throw new 
+    }
 
     const emailAlreadyExists = await User.findOne({ email })
     if(emailAlreadyExists) {
@@ -22,6 +27,7 @@ const register = async (req, res) => {
 	res.status(StatusCodes.CREATED).json({ user: { name: user.name }, token })
 }
 
+// LOGIN
 const login = async (req, res) => {
 	const { email, password } = req.body
 
@@ -43,6 +49,8 @@ const login = async (req, res) => {
 	const token = user.createJWT()
 	res.status(StatusCodes.OK).json({ user: { name: user.name }, token })
 }
+
+// LOGOUT
 
 module.exports = {
 	register,
