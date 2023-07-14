@@ -14,12 +14,12 @@ const {
 
 router
 	.route("/")
-	.post([authenticateUser, authorizePermission], createProduct)
-	.get([authenticateUser, authorizePermission], getAllProducts);
+	.post([authenticateUser, authorizePermission("admin")], createProduct)
+	.get(getAllProducts);
 router
 	.route("/:id")
-	.get([authenticateUser, authorizePermission], getProduct)
-	.patch([authenticateUser, authorizePermission], updateProduct)
-	.delete([authenticateUser, authorizePermission], deleteProduct);
+	.get(getProduct)
+	.patch([authenticateUser, authorizePermission("admin")], updateProduct)
+	.delete([authenticateUser, authorizePermission("admin")], deleteProduct);
     
 module.exports = router;
