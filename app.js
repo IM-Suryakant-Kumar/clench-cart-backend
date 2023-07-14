@@ -2,26 +2,24 @@ require("dotenv").config();
 require("express-async-errors");
 const express = require("express");
 const app = express();
-
 // extra security package
 const helmet = require("helmet");
 const cors = require("cors");
 const xss = require("xss-clean");
 const rateLimiter = require("express-rate-limit");
-
-// db
+// DB
 const connectDB = require("./db/connect");
-// routers
+// ROUTERS
 const auth = require("./routes/auth");
 const user = require("./routes/user");
-const productRouter = require("./routes/product");
-const cartRouter = require("./routes/cart");
-const orderRouter = require("./routes/order");
-const stripeRouter = require("./routes/stripe");
-// error handler
+const product = require("./routes/product");
+const cart = require("./routes/cart");
+const order = require("./routes/order");
+const stripe = require("./routes/stripe");
+// ERROR HANDLER
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
-// middleware
+// MIDDLEWARE
 app.use(
 	rateLimiter({
 		windowMs: 15 * 60 * 1000, // 15 minutes
@@ -34,18 +32,17 @@ app.use(express.json());
 app.use(helmet());
 app.use(cors());
 app.use(xss());
-
+// TESTING
 app.get("/", (req, res) => {
 	res.send("Clench Cart API");
 });
-
 // routes
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/users", user);
-app.use("/api/v1/products", productRouter);
-app.use("/api/v1/carts", cartRouter);
-app.use("/api/v1/orders", orderRouter);
-app.use("/api/v1/checkout", stripeRouter);
+app.use("/api/v1/products", product);
+app.use("/api/v1/carts", cart);
+app.use("/api/v1/orders", order);
+app.use("/api/v1/checkout", stripe);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
