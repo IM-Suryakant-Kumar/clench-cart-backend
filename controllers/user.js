@@ -4,6 +4,7 @@ const User = require("../models/User");
 // USER
 // GET USER PROFILE
 const userProfile = async (req, res) => {
+    console.log("user profile")
 	const user = await User.findById(req.user._id);
 	res.status(StatusCodes.OK).json(user);
 };
@@ -21,7 +22,6 @@ const deleteAccount = async (req, res) => {
 }
 
 // ADMIN
-// UPDATE
 // GET ALL USER
 const getAllUsers = async (req, res) => {
 	const query = req.query.new;

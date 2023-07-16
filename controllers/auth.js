@@ -1,14 +1,14 @@
 const User = require("../models/User");
 const { StatusCodes } = require("http-status-codes");
-const { BadRequestError } = require("../errors");
+const { BadRequestError, UnauthenticatedError } = require("../errors");
 const sendToken = require("../utils/jwtToken");
 
 // REGISTER
 const register = async (req, res) => {
-	const { name, email, password } = req.body;
+	const { username, email, password } = req.body;
 
-	if (!(name && email && password)) {
-		throw new BadRequestError("Please provide name, email, password");
+	if (!(username && email && password)) {
+		throw new BadRequestError("Please provide username, email, password");
 	}
 
 	const emailAlreadyExists = await User.findOne({ email });
@@ -19,20 +19,20 @@ const register = async (req, res) => {
 	const isFirstAccount = (await User.countDocuments({})) === 0;
 	const role = isFirstAccount ? "admin" : "user";
 
-	const user = await User.create({ name, email, password, role });
+	const user = await User.create({ username, email, password, role });
 
 	sendToken(user, StatusCodes.CREATED, res);
 };
 
 // LOGIN
 const login = async (req, res) => {
-	const { email, password } = req.body;
+	const { username, password } = req.body;
 
-	if (!(email && password)) {
-		throw new BadRequestError("Please provide email and password");
+	if (!(username && password)) {
+		throw new BadRequestError("Please provide username and password");
 	}
 
-	const user = await User.findOne({ email });
+	const user = await User.findOne({ username }).select("+password");
 	if (!user) {
 		throw new UnauthenticatedError("Invalid credential");
 	}
@@ -51,11 +51,11 @@ const logout = async (req, res) => {
 		httpOnly: true
 	});
 
-    res.status(StatusCodes.OK).json({msg: "Logged out"})
+	res.status(StatusCodes.OK).json({ msg: "Logged out" });
 };
 
 module.exports = {
 	register,
 	login,
-    logout
+	logout
 };
