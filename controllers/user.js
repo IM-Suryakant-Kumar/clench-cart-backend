@@ -4,7 +4,6 @@ const User = require("../models/User");
 // USER
 // GET USER PROFILE
 const userProfile = async (req, res) => {
-    console.log("user profile")
 	const user = await User.findById(req.user._id);
 	res.status(StatusCodes.OK).json(user);
 };
@@ -17,9 +16,9 @@ const updateProfile = async (req, res) => {
 };
 // DELETE ACCOUNT
 const deleteAccount = async (req, res) => {
-    await User.findByIdAndDelete(req.user._id)
-    res.status(StatusCodes.OK).json({msg: "Your accout has been deleted"})
-}
+	await User.findByIdAndDelete(req.user._id);
+	res.status(StatusCodes.OK).json({ msg: "Your accout has been deleted" });
+};
 
 // ADMIN
 // GET ALL USER
@@ -71,7 +70,7 @@ const getUserStats = async (req, res) => {
 module.exports = {
 	updateProfile,
 	userProfile,
-    deleteAccount,
+	deleteAccount,
 	updateUser,
 	deleteUser,
 	getUser,
