@@ -5,7 +5,7 @@ const Product = require("../models/Product");
 
 // CREATE
 const createOrder = async (req, res) => {
-    const carts = await Cart.find({ userId: req.user.Id })
+    const carts = await Cart.find({ userId: req.user._id })
 
     let products = []
 
