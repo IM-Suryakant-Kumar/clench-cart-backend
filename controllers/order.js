@@ -1,10 +1,27 @@
 const Order = require("../models/Order");
+const Cart = require("../models/Cart")
 const { StatusCodes } = require("http-status-codes");
+const Product = require("../models/Product");
 
 // CREATE
 const createOrder = async (req, res) => {
-	const order = await Order.create(req.body);
-	res.status(StatusCodes.CREATED).json(order);
+    const carts = await Cart.find({ userId: req.user.Id })
+
+    let products = []
+
+    for(let cart of carts) {
+        let { userId, product: { productId, color, size, quantity } } = cart
+
+        let newProduct = {
+            userId, productId, color, size, quantity
+        }
+
+        products.push(newProduct)
+    }
+
+	await Order.create(products);
+
+	res.status(StatusCodes.CREATED).json({ msg: "Order successful" });
 };
 // GET USER ORDERS
 const getUserOrders = async (req, res) => {

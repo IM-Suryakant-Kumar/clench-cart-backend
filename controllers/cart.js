@@ -15,7 +15,7 @@ const getUserCarts = async (req, res) => {
     let totalPrice = 0
     // console.log(carts)
 
-    for (cart of carts) {
+    for (let cart of carts) {
         let { productId, quantity, color, size } = cart.product
         
         let { _id, title, desc, img, price } = await Product.findById(productId)
@@ -27,7 +27,8 @@ const getUserCarts = async (req, res) => {
         totalQuantity += 1
         totalPrice += price
     }
-    console.log({ products, totalQuantity, totalPrice })
+    // console.log({ products, totalQuantity, totalPrice })
+    
 	res.status(StatusCodes.OK).json({ products, totalQuantity, totalPrice });
 };
 // UPDATE CART
