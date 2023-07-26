@@ -20,13 +20,27 @@ const createOrder = async (req, res) => {
     }
 
 	await Order.create(products);
+    await Cart.deleteMany({ userId: req.user._id })
 
 	res.status(StatusCodes.CREATED).json({ msg: "Order successful" });
 };
 // GET USER ORDERS
 const getUserOrders = async (req, res) => {
 	const orders = await Order.find({ userId: req.user._id });
-	res.status(StatusCodes.OK).json(orders);
+    let products = []
+
+    for(let order of orders) {
+        let  { productId, quantity, color, size } = order
+
+        let { title, desc, img, price } = await Product.findById(productId)
+        let newProduct = {
+            title, desc, img, price: price * quantity, color, size, quantity
+        }
+
+        products.push(newProduct)
+    }
+
+	res.status(StatusCodes.OK).json(products);
 };
 // GET ALL
 const getAllOrders = async (req, res) => {
