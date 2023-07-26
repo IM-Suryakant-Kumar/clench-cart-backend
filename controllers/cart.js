@@ -10,16 +10,25 @@ const createCart = async (req, res) => {
 // GET USER CARTS
 const getUserCarts = async (req, res) => {
 	const carts = await Cart.find({ userId: req.user._id });
-    let products = [], quantity = 0, totalPrice = 0
+    let products = []
+    let totalQuantity = 0
+    let totalPrice = 0
+    // console.log(carts)
 
-    carts.forEach(async (cart) => {
-        let product = await Product.findById(cart.productId)
-        products.push(product)
-        quantity += cart.quantity
-        totalPrice += cart.price
-    })
-
-	res.status(StatusCodes.OK).json({ products, quantity, totalPrice });
+    for (cart of carts) {
+        let { productId, quantity, color, size } = cart.product
+        
+        let { _id, title, desc, img, price } = await Product.findById(productId)
+        let newProduct = {
+            _id, title, desc, img, price, quantity, color, size 
+        }
+        products.push(newProduct)
+        
+        totalQuantity += 1
+        totalPrice += price
+    }
+    console.log({ products, totalQuantity, totalPrice })
+	res.status(StatusCodes.OK).json({ products, totalQuantity, totalPrice });
 };
 // UPDATE CART
 const updateCart = async (req, res) => {
