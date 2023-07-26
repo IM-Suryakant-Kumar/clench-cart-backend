@@ -34,7 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 const corsOptions = {
 	//To allow requests from client
-	origin: process.env.CORS_ORIGIN,
+	origin: [ process.env.CLIENT_URL, process.env.ADMIN_URL ],
 	credentials: true
 };
 app.use(cors(corsOptions));

@@ -5,7 +5,6 @@ const ProductSchema = new mongoose.Schema(
 		title: {
 			type: String,
 			required: [true, "Please provide product title"],
-			unique: true,
 			trim: true
 		},
 		desc: {
