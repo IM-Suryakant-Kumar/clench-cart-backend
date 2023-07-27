@@ -15,6 +15,7 @@ const auth = require("./routes/auth");
 const user = require("./routes/user");
 const product = require("./routes/product");
 const cart = require("./routes/cart");
+const wishlist = require("./routes/wishlist");
 const order = require("./routes/order");
 const stripe = require("./routes/stripe");
 // ERROR HANDLER
@@ -49,6 +50,7 @@ app.use("/api/v1/auth", auth);
 app.use("/api/v1/users", user);
 app.use("/api/v1/products", product);
 app.use("/api/v1/carts", cart);
+app.use("/api/v1/wishlists", wishlist);
 app.use("/api/v1/orders", order);
 app.use("/api/v1/checkout", stripe);
 
