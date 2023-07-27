@@ -30,11 +30,11 @@ const getUserOrders = async (req, res) => {
     let products = []
 
     for(let order of orders) {
-        let  { productId, quantity, color, size } = order
+        let  { _id, productId, quantity, color, size } = order
 
         let { title, desc, img, price } = await Product.findById(productId)
         let newProduct = {
-            title, desc, img, price: price * quantity, color, size, quantity
+            _id, title, desc, img, price: price * quantity, color, size, quantity
         }
 
         products.push(newProduct)
