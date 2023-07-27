@@ -19,10 +19,8 @@ const getUserCarts = async (req, res) => {
         let { productId, quantity, color, size } = cart.product
         
         let { _id, title, desc, img, price } = await Product.findById(productId)
-        let newProduct = {
-            _id, title, desc, img, price, quantity, color, size 
-        }
-        products.push(newProduct)
+        
+        products.push({ _id, title, desc, img, price, quantity, color, size })
         
         totalQuantity += 1
         totalPrice += price
@@ -41,7 +39,7 @@ const updateCart = async (req, res) => {
 // DELETE CART
 const deleteCart = async (req, res) => {
 	await Cart.findByIdAndDelete(req.params.id);
-	res.status(StatusCodes.OK).json({ msg: "Cart has been deleted" });
+	res.status(StatusCodes.OK).json({ msg: "Item removed" });
 };
 // GET ALL CARTS
 const getAllCarts = async (req, res) => {
