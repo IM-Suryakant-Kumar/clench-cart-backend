@@ -4,9 +4,8 @@ const { StatusCodes } = require("http-status-codes");
 
 // CREATE CART
 const createCart = async (req, res) => {
-    const cart = await Cart.findOneAndUpdate({productId: req.body.productId}, req.body)
+    await Cart.create({ userId: req.user._id, ...req.body });
 
-	!cart && await Cart.create({ userId: req.user._id, product: req.body });
 	res.status(StatusCodes.CREATED).json({ msg: "Item added to cart" });
 };
 // GET USER CARTS
@@ -18,9 +17,9 @@ const getUserCarts = async (req, res) => {
     // console.log(carts)
 
     for (let cart of carts) {
-        let { productId, quantity, color, size } = cart.product
+        let { _id, productId, quantity, color, size } = cart
         
-        let { _id, title, desc, img, price } = await Product.findById(productId)
+        let { title, desc, img, price } = await Product.findById(productId)
         
         products.push({ _id, title, desc, img, price, quantity, color, size })
         
