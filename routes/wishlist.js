@@ -10,6 +10,8 @@ const { authenticateUser } = require("../middleware/authentication")
 router.route("/")
     .post(authenticateUser, createWishlist)
     .get(authenticateUser, getAllWishlist)
+
+router.route("/:id")
     .delete(authenticateUser, deleteWishlist)
 
 module.exports = router

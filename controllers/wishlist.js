@@ -23,7 +23,8 @@ const getAllWishlist = async (req, res) => {
 }
 
 const deleteWishlist = async (req, res) => {
-    await Wishlist.findByIdAndDelete(req.body._id)
+    // console.log(req.params)
+    await Wishlist.findByIdAndDelete(req.params.id)
 
     res.status(StatusCodes.OK).json({ msg: "Remove from wishlist"})
 }
