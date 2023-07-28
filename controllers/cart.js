@@ -4,7 +4,14 @@ const { StatusCodes } = require("http-status-codes");
 
 // CREATE CART
 const createCart = async (req, res) => {
-    await Cart.create({ userId: req.user._id, ...req.body });
+    let { productId, color, size, quantity } = req.body
+
+    const product = await Product.findById(productId)
+
+    !color && !size && !quantity 
+        && ( color = product.color[0],  size  = product.size[0],  quantity  = 1)
+
+    await Cart.create({ userId: req.user._id, productId, color, size, quantity });
 
 	res.status(StatusCodes.CREATED).json({ msg: "Item added to cart" });
 };
