@@ -28,7 +28,7 @@ const getUserCarts = async (req, res) => {
         
         let { title, desc, img, price } = await Product.findById(productId)
         
-        products.push({ _id, title, desc, img, price, quantity, color, size })
+        products.push({ _id, productId, title, desc, img, price, quantity, color, size })
         
         totalQuantity += 1
         totalPrice += price

@@ -16,7 +16,7 @@ const getAllWishlist = async (req, res) => {
         let { _id, productId } = wishlist
         let { title, desc, img, price } = await Product.findById(productId)
 
-        products.push({ _id, title, desc, img, price })
+        products.push({ _id, productId, title, desc, img, price })
     }
 
     res.status(StatusCodes.OK).json(products)
