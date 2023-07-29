@@ -17,10 +17,10 @@ const wishlist = require("./routes/wishlist");
 const order = require("./routes/order");
 const stripe = require("./routes/stripe");
 // ERROR HANDLER
-const notFoundMiddleware = require("./middleware/not-found");
+// const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 // MIDDLEWARE
-app.use("/build", express.static("build"))
+app.use(express.static("build"))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -35,7 +35,7 @@ app.use("/api/v1/wishlists", wishlist);
 app.use("/api/v1/orders", order);
 app.use("/api/v1/checkout", stripe);
 
-app.use(notFoundMiddleware);
+// app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
 const start = async () => {
