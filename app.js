@@ -21,7 +21,7 @@ const stripe = require("./routes/stripe");
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 // MIDDLEWARE
-app.use(express.static(path.join(__dirname, "build")))
+app.use(express.static(path.join(__dirname, "./build")))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -36,8 +36,8 @@ app.use("/api/v1/wishlists", wishlist);
 app.use("/api/v1/orders", order);
 app.use("/api/v1/checkout", stripe);
 
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "build", "index.html"))
+app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "./build", "index.html"))
 })
 
 app.use(notFoundMiddleware);
