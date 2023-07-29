@@ -22,29 +22,13 @@ const stripe = require("./routes/stripe");
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 // MIDDLEWARE
-// app.use(
-// 	rateLimiter({
-// 		windowMs: 15 * 60 * 1000, // 15 minutes
-// 		max: 100 // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-// 		// standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-// 		// legacyHeaders: false // Disable the `X-RateLimit-*` headers
-// 	})
-// );
+app.use(express.static("build"))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-const corsOptions = {
-	//To allow requests from client
-	origin: [ process.env.CLIENT_URL, process.env.ADMIN_URL ],
-	credentials: true
-};
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(helmet());
 app.use(xss());
-// TESTING
-app.get("/", (req, res) => {
-	res.send("Clench Cart API");
-});
 // routes
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/users", user);
