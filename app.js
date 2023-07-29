@@ -21,7 +21,7 @@ const stripe = require("./routes/stripe");
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 // MIDDLEWARE
-app.use(express.static(path.join(__dirname, "./build")))
+app.use(express.static(path.resolve(__dirname, "./build")))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
