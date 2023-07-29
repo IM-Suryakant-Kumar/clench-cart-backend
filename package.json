@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "clench-cart-backend",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -26,5 +26,8 @@
     "stripe": "^12.12.0",
     "validator": "^13.9.0",
     "xss-clean": "^0.1.1"
+  },
+  "devDependencies": {
+    "http-proxy-middleware": "^2.0.6"
   }
 }
