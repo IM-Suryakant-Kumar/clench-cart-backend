@@ -5,9 +5,7 @@ const app = express();
 const cookieParser = require("cookie-parser");
 // extra security package
 const helmet = require("helmet");
-const cors = require("cors");
 const xss = require("xss-clean");
-// const rateLimiter = require("express-rate-limit");
 // DB
 const connectDB = require("./db/connect");
 // ROUTERS
@@ -26,7 +24,6 @@ app.use(express.static("build"))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors());
 app.use(helmet());
 app.use(xss());
 // routes
