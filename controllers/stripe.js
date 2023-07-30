@@ -74,7 +74,7 @@ const stripeCheckout = async (req, res) => {
 		line_items: line_items,
 		mode: "payment",
 		success_url: `${process.env.CLIENT_URL}/success`,
-		cancel_url: `${process.env.CLIENT_URL}/cart`
+		cancel_url: `${process.env.CLIENT_URL}/cart` 
 	});
 
 	res.status(StatusCodes.OK).send({ url: session.url });
