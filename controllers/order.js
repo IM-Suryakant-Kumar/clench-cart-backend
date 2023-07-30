@@ -6,11 +6,12 @@ const Product = require("../models/Product");
 // CREATE
 const createOrder = async (req, res) => {
     const carts = await Cart.find({ userId: req.user._id })
+    // console.log(carts)
 
     let products = []
 
     for(let cart of carts) {
-        let { userId, product: { productId, color, size, quantity } } = cart
+        let { userId, productId, color, size, quantity } = cart
 
         let newProduct = {
             userId, productId, color, size, quantity
