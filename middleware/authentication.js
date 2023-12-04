@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const { UnauthenticatedError, UnauthorizedError } = require("../errors");
 
 const authenticateUser = async (req, res, next) => {
-	const { token } = req.cookies;
+	let { token } = req.cookies;
 
 	// Check header
 	const authHeader = req.headers.authorization;
