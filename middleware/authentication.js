@@ -3,11 +3,17 @@ const jwt = require("jsonwebtoken");
 const { UnauthenticatedError, UnauthorizedError } = require("../errors");
 
 const authenticateUser = async (req, res, next) => {
-    const { token } = req.cookies;
+	const { token } = req.cookies;
 
-	if (!token) {
+	// Check header
+	const authHeader = req.headers.authorization;
+	if (!token && !(authHeader && authHeader.startsWith("Bearer")))
 		throw new UnauthenticatedError("Authentication Invalid");
-	}
+
+	!token && (token = authHeader.split(" ")[1]);
+
+	if (token === "null")
+		throw new UnauthenticatedError("Authentication Invalid");
 
 	const { userId } = jwt.verify(token, process.env.JWT_SECRET);
 
@@ -26,5 +32,5 @@ const authorizePermission = (...roles) => {
 
 module.exports = {
 	authenticateUser,
-	authorizePermission
+	authorizePermission,
 };
