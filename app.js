@@ -31,11 +31,11 @@ app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 
 // routes
 app.use("/auth", authRouter);
-app.use("/users", userRouter);
-app.use("/products", productRouter);
-app.use("/carts", cartRouter);
-app.use("/wishlists", wishlistRouter);
-app.use("/orders", orderRouter);
+app.use("/user", userRouter);
+app.use("/product", productRouter);
+app.use("/cart", cartRouter);
+app.use("/wishlist", wishlistRouter);
+app.use("/order", orderRouter);
 app.use("/checkout", stripeRouter);
 
 app.get("/", (req, res) => {
