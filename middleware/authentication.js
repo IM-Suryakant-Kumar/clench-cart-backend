@@ -1,23 +1,22 @@
-const User = require("../models/User");
+const { User } = require("../models");
 const jwt = require("jsonwebtoken");
 const { UnauthenticatedError, UnauthorizedError } = require("../errors");
 
 const authenticateUser = async (req, res, next) => {
 	let { token } = req.cookies;
 
-	// Check header
-	const authHeader = req.headers.authorization;
-	if (!token && !(authHeader && authHeader.startsWith("Bearer")))
-		throw new UnauthenticatedError("Authentication Invalid");
+	if (!token || token === "undefined") {
+		const authHeader = req.headers.authorization;
+		if (!authHeader || !authHeader.startsWith("Bearer"))
+			throw new UnauthenticatedError("Authentication Failed!");
+		token = authHeader.split(" ")[1];
+	}
 
-	!token && (token = authHeader.split(" ")[1]);
+	if (!token || token === "null" || token === "undefined")
+		throw new UnauthenticatedError("Authentication Failed!");
 
-	if (token === "null")
-		throw new UnauthenticatedError("Authentication Invalid");
-
-	const { userId } = jwt.verify(token, process.env.JWT_SECRET);
-
-	req.user = await User.findById(userId);
+	const { _id } = jwt.verify(token, process.env.JWT_SECRET);
+	req.user = await User.findById(_id);
 	next();
 };
 
