@@ -3,7 +3,7 @@ const Stripe = require("stripe");
 const stripe = Stripe(process.env.STRIPE_KEY);
 
 const stripeCheckout = async (req, res) => {
-	const line_items = req.body.products.map((item) => {
+	const line_items = req.body.products.map(item => {
 		return {
 			price_data: {
 				currency: "inr",
@@ -12,12 +12,12 @@ const stripeCheckout = async (req, res) => {
 					images: [item.img],
 					description: item.desc,
 					metadata: {
-						id: item._id
-					}
+						id: item._id,
+					},
 				},
-				unit_amount: item.price * 100
+				unit_amount: item.price * 100,
 			},
-			quantity: item.quantity
+			quantity: item.quantity,
 		};
 	});
 
@@ -73,7 +73,7 @@ const stripeCheckout = async (req, res) => {
 		line_items: line_items,
 		mode: "payment",
 		success_url: `${process.env.CLIENT_URL}/success`,
-		cancel_url: `${process.env.CLIENT_URL}/cart` 
+		cancel_url: `${process.env.CLIENT_URL}/cart`,
 	});
 
 	res.status(200).send({ url: session.url });

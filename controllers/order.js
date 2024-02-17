@@ -1,29 +1,8 @@
 const { Order, Cart, Product } = require("../models");
 
-const createOrder = async (req, res) => {
-	const carts = await Cart.find({ userId: req.user._id });
-	// console.log(carts)
-
-	let products = [];
-
-	for (let cart of carts) {
-		let { userId, productId, color, size, quantity } = cart;
-
-		let newProduct = {
-			userId,
-			productId,
-			color,
-			size,
-			quantity,
-		};
-
-		products.push(newProduct);
-	}
-
-	await Order.create(products);
-	await Cart.deleteMany({ userId: req.user._id });
-
-	res.status(201).json({ success: true, message: "Order successful" });
+const getAllOrders = async (req, res) => {
+	const orders = await Order.find();
+	res.status(200).json({ success: true, orders });
 };
 
 const getUserOrders = async (req, res) => {
@@ -51,9 +30,29 @@ const getUserOrders = async (req, res) => {
 	res.status(200).json({ success: true, products });
 };
 
-const getAllOrders = async (req, res) => {
-	const orders = await Order.find();
-	res.status(200).json({ success: true, orders });
+const createOrder = async (req, res) => {
+	const carts = await Cart.find({ userId: req.user._id });
+
+	let products = [];
+
+	for (let cart of carts) {
+		let { userId, productId, color, size, quantity } = cart;
+
+		let newProduct = {
+			userId,
+			productId,
+			color,
+			size,
+			quantity,
+		};
+
+		products.push(newProduct);
+	}
+
+	await Order.create(products);
+	await Cart.deleteMany({ userId: req.user._id });
+
+	res.status(201).json({ success: true, message: "Order successful" });
 };
 
 const updateOrder = async (req, res) => {
@@ -93,9 +92,9 @@ const getMonthlyIncone = async (req, res) => {
 };
 
 module.exports = {
-	createOrder,
-	getUserOrders,
 	getAllOrders,
+	getUserOrders,
+	createOrder,
 	updateOrder,
 	deleteOrder,
 	getMonthlyIncone,

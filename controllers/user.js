@@ -1,28 +1,5 @@
 const { User } = require("../models");
 
-// USER
-const userProfile = async (req, res) => {
-	const user = await User.findById(req.user._id);
-	res.status(200).json({ success: true, user });
-};
-
-const updateProfile = async (req, res) => {
-	await User.findByIdAndUpdate(req.user.id, req.body, {
-		new: true,
-	});
-	res
-		.status(200)
-		.json({ success: true, message: "Profile updated successfully" });
-};
-
-const deleteAccount = async (req, res) => {
-	await User.findByIdAndDelete(req.user._id);
-	res
-		.status(200)
-		.json({ success: true, message: "Your accout has been deleted" });
-};
-
-// ADMIN
 const getAllUsers = async (req, res) => {
 	const query = req.query.new;
 	const users = query
@@ -31,21 +8,16 @@ const getAllUsers = async (req, res) => {
 	res.status(200).json({ success: true, users });
 };
 
-const getUser = async (req, res) => {
-	const user = await User.findById(req.params.id);
-	res.status(200).json({ success: true, user });
-};
-
 const updateUser = async (req, res) => {
-	const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+	await User.findByIdAndUpdate(req.params.id, req.body, {
 		new: true,
 	});
-	res.status(200).json({ success: true, user });
+	res.status(200).json({ success: true, message: "User has been updated" });
 };
 
 const deleteUser = async (req, res) => {
 	await User.findByIdAndDelete(req.params.id);
-	res.status(200).json({ success: true, message: "user has been deleted" });
+	res.status(200).json({ success: true, message: "User has been deleted" });
 };
 
 const getUserStats = async (req, res) => {
@@ -69,12 +41,8 @@ const getUserStats = async (req, res) => {
 };
 
 module.exports = {
-	updateProfile,
-	userProfile,
-	deleteAccount,
+	getAllUsers,
 	updateUser,
 	deleteUser,
-	getUser,
-	getAllUsers,
 	getUserStats,
 };

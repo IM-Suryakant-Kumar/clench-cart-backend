@@ -7,7 +7,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const connectDB = require("./db");
-const { notFoundMiddleware, errorHandlerMiddleware } = require("./middleware");
+const { notFoundMiddleware, errorHandlerMiddleware } = require("./middlewares");
 const {
 	authRouter,
 	userRouter,

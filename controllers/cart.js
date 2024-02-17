@@ -1,5 +1,40 @@
 const { Cart, Product } = require("../models");
 
+const getAllCarts = async (req, res) => {
+  const carts = await Cart.find();
+  res.status(200).json({ success: true, carts });
+};
+
+const getUserCarts = async (req, res) => {
+  const carts = await Cart.find({ userId: req.user._id });
+  let products = [];
+  let totalQuantity = 0;
+  let totalPrice = 0;
+
+  for (let cart of carts) {
+    let { _id, productId, quantity, color, size } = cart;
+
+    let { title, desc, img, price } = await Product.findById(productId);
+
+    products.push({
+      _id,
+      productId,
+      title,
+      desc,
+      img,
+      price,
+      quantity,
+      color,
+      size,
+    });
+
+    totalQuantity += 1;
+    totalPrice += price;
+  }
+
+  res.status(200).json({ success: true, products, totalQuantity, totalPrice });
+};
+
 const createCart = async (req, res) => {
 	let { productId, color, size, quantity } = req.body;
 
@@ -15,35 +50,6 @@ const createCart = async (req, res) => {
 	res.status(201).json({ success: true, message: "Item added to cart" });
 };
 
-const getUserCarts = async (req, res) => {
-	const carts = await Cart.find({ userId: req.user._id });
-	let products = [];
-	let totalQuantity = 0;
-	let totalPrice = 0;
-
-	for (let cart of carts) {
-		let { _id, productId, quantity, color, size } = cart;
-
-		let { title, desc, img, price } = await Product.findById(productId);
-
-		products.push({
-			_id,
-			productId,
-			title,
-			desc,
-			img,
-			price,
-			quantity,
-			color,
-			size,
-		});
-
-		totalQuantity += 1;
-		totalPrice += price;
-	}
-
-	res.status(200).json({ success: true, products, totalQuantity, totalPrice });
-};
 
 const updateCart = async (req, res) => {
 	const cart = await Cart.findByIdAndUpdate(req.params.id, req.body, {
@@ -57,15 +63,11 @@ const deleteCart = async (req, res) => {
 	res.status(200).json({ success: true, message: "Item removed from cart" });
 };
 
-const getAllCarts = async (req, res) => {
-	const carts = await Cart.find();
-	res.status(200).json({ success: true, carts });
-};
 
 module.exports = {
-	createCart,
+	getAllCarts,
 	getUserCarts,
+	createCart,
 	updateCart,
 	deleteCart,
-	getAllCarts,
 };

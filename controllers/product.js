@@ -1,20 +1,15 @@
 const { Product } = require("../models");
 
+const getAllProducts = async (req, res) => {
+  const products = await Product.find();
+  res.status(200).json({ success: true, products });
+};
+
 const createProduct = async (req, res) => {
 	const product = await Product.create(req.body);
 	res
 		.status(201)
-		.json({ success: true, product, message: "Product created successfully" });
-};
-
-const getAllProducts = async (req, res) => {
-	const products = await Product.find();
-	res.status(200).json({ success: true, products });
-};
-
-const getProduct = async (req, res) => {
-	const product = await Product.findById(req.params.id);
-	res.status(200).json({ success: true, product });
+		.json({ success: true, product, message: "Product has been created" });
 };
 
 const updateProduct = async (req, res) => {
@@ -23,7 +18,7 @@ const updateProduct = async (req, res) => {
 	});
 	res
 		.status(201)
-		.json({ success: true, product, message: "Product updated successfully" });
+		.json({ success: true, product, message: "Product has been updated" });
 };
 
 const deleteProduct = async (req, res) => {
@@ -33,7 +28,6 @@ const deleteProduct = async (req, res) => {
 
 module.exports = {
 	getAllProducts,
-	getProduct,
 	createProduct,
 	updateProduct,
 	deleteProduct,
