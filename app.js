@@ -45,7 +45,7 @@ app.get("/", (req, res) => {
 // error handler
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
-const start = async () => {
+(async () => {
 	try {
 		await connectDB(process.env.MONGO_URI);
 		app.listen(process.env.PORT, () =>
@@ -54,5 +54,4 @@ const start = async () => {
 	} catch (err) {
 		console.log(err);
 	}
-};
-start();
+})();
