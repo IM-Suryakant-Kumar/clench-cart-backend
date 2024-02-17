@@ -4,17 +4,19 @@ const express = require("express");
 const helmet = require("helmet");
 const xss = require("xss-clean");
 const morgan = require("morgan");
-const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const connectDB = require("./db");
 const { notFoundMiddleware, errorHandlerMiddleware } = require("./middleware");
-const authRouter = require("./routes/auth");
-const userRouter = require("./routes/user");
-const productRouter = require("./routes/product");
-const cartRouter = require("./routes/cart");
-const wishlistRouter = require("./routes/wishlist");
-const orderRouter = require("./routes/order");
-const stripeRouter = require("./routes/stripe");
+const {
+	authRouter,
+	userRouter,
+	productRouter,
+	cartRouter,
+	wishlistRouter,
+	orderRouter,
+	stripeRouter,
+} = require("./routes");
 
 const app = express();
 
