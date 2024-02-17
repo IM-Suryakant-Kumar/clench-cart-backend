@@ -30,13 +30,13 @@ app.use(cookieParser());
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 
 // routes
-app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/users", userRouter);
-app.use("/api/v1/products", productRouter);
-app.use("/api/v1/carts", cartRouter);
-app.use("/api/v1/wishlists", wishlistRouter);
-app.use("/api/v1/orders", orderRouter);
-app.use("/api/v1/checkout", stripeRouter);
+app.use("/auth", authRouter);
+app.use("/users", userRouter);
+app.use("/products", productRouter);
+app.use("/carts", cartRouter);
+app.use("/wishlists", wishlistRouter);
+app.use("/orders", orderRouter);
+app.use("/checkout", stripeRouter);
 
 app.get("/", (req, res) => {
 	res.status(200).send("<h2>Working...👌👍</h2>");
