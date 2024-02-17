@@ -2,8 +2,8 @@ const router = require("express").Router();
 
 const { authenticateUser } = require("../middlewares");
 const {
-	createWishlist,
 	getAllWishlist,
+	createWishlist,
 	deleteWishlist,
 } = require("../controllers/wishlist");
 
