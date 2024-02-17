@@ -10,7 +10,7 @@ const sendToken = (user, statusCode, res, message) => {
 
 	res.status(statusCode)
 		.cookie("token", token, options)
-		.json({ user, token, message });
+		.json({ success: true, user, token, message });
 };
 
 module.exports = sendToken;

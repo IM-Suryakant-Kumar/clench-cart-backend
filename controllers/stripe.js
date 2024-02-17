@@ -1,4 +1,3 @@
-const { StatusCodes } = require("http-status-codes");
 const Stripe = require("stripe");
 
 const stripe = Stripe(process.env.STRIPE_KEY);
@@ -77,7 +76,7 @@ const stripeCheckout = async (req, res) => {
 		cancel_url: `${process.env.CLIENT_URL}/cart` 
 	});
 
-	res.status(StatusCodes.OK).send({ url: session.url });
+	res.status(200).send({ url: session.url });
 };
 
 module.exports = stripeCheckout;
