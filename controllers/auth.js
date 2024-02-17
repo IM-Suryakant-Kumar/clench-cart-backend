@@ -42,8 +42,8 @@ const login = async (req, res) => {
 };
 
 const guestLogin = async (req, res) => {
-	const email = "clenchcart@gmail.com";
-	const password = "secret";
+	const email = process.env.GUEST_EMAIL;
+	const password = process.env.GUEST_PASSWORD;
 
 	if (!(email && password)) {
 		throw new BadRequestError("Please provide email and password");
@@ -79,9 +79,7 @@ const updateProfile = async (req, res) => {
 	await User.findByIdAndUpdate(req.user.id, req.body, {
 		new: true,
 	});
-	res
-		.status(200)
-		.json({ success: true, message: "Profile has been updated" });
+	res.status(200).json({ success: true, message: "Profile has been updated" });
 };
 
 const deleteProfile = async (req, res) => {
