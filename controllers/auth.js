@@ -1,9 +1,7 @@
-const User = require("../models/User");
-const { StatusCodes } = require("http-status-codes");
+const { User } = require("../models");
 const { BadRequestError, UnauthenticatedError } = require("../errors");
-const sendToken = require("../utils/jwtToken");
+const sendToken = require("../utils");
 
-// REGISTER
 const register = async (req, res) => {
 	const { username, email, password } = req.body;
 
@@ -21,10 +19,9 @@ const register = async (req, res) => {
 
 	const user = await User.create({ username, email, password, role });
 
-	sendToken(user, StatusCodes.CREATED, res);
+	sendToken(user, 201, res, "Registered successfully");
 };
 
-// LOGIN
 const login = async (req, res) => {
 	const { username, password } = req.body;
 
@@ -34,28 +31,23 @@ const login = async (req, res) => {
 
 	const user = await User.findOne({ username }).select("+password");
 	if (!user) {
-		throw new UnauthenticatedError("Invalid credential");
+		throw new UnauthenticatedError("Invalid credentials");
 	}
 	const isPasswordCorrect = await user.comparePassword(password);
 	if (!isPasswordCorrect) {
-		throw new UnauthenticatedError("Invalid credential");
+		throw new UnauthenticatedError("Invalid credentials");
 	}
 
-	sendToken(user, StatusCodes.OK, res);
+	sendToken(user, 200, res, "Login successfully");
 };
 
-// LOGOUT
 const logout = async (req, res) => {
 	res.cookie("token", null, {
 		expires: new Date(Date.now()),
-		httpOnly: true
+		httpOnly: true,
 	});
 
-	res.status(StatusCodes.OK).json({ msg: "Logged out" });
+	res.status(200).json({ message: "Logged out successfully" });
 };
 
-module.exports = {
-	register,
-	login,
-	logout
-};
+module.exports = { register, login, logout };

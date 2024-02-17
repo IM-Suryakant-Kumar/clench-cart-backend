@@ -1,4 +1,4 @@
-const sendToken = (user, statusCode, res) => {
+const sendToken = (user, statusCode, res, message) => {
 	const token = user.createJWTToken();
 
 	const options = {
@@ -10,7 +10,7 @@ const sendToken = (user, statusCode, res) => {
 
 	res.status(statusCode)
 		.cookie("token", token, options)
-		.json({ user, token });
+		.json({ user, token, message });
 };
 
 module.exports = sendToken;
