@@ -7,28 +7,28 @@ class CustomAPIError extends Error {
 class BadRequestError extends CustomAPIError {
 	constructor(message) {
 		super(message);
-		this.statusCode = StatusCodes.BAD_REQUEST;
+		this.statusCode = 400;
 	}
 }
 
 class NotFoundError extends CustomAPIError {
 	constructor(message) {
 		super(message);
-		this.statusCodes = StatusCodes.NOT_FOUND;
+		this.statusCodes = 404;
 	}
 }
 
 class UnauthenticatedError extends CustomAPIError {
 	constructor(message) {
 		super(message);
-		this.statusCode = StatusCodes.UNAUTHORIZED;
+		this.statusCode = 401;
 	}
 }
 
 class UnauthorizedError extends CustomAPIError {
 	constructor(message) {
 		super(message);
-		this.statusCode = StatusCodes.FORBIDDEN;
+		this.statusCode = 403;
 	}
 }
 
