@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
 const UserSchema = new mongoose.Schema(
 	{
-		username: { type: String, required: [true, "Please provide username"] },
+		name: { type: String, required: [true, "Please provide name"] },
 		email: {
 			type: String,
 			required: [true, "Please provide email"],
@@ -32,7 +32,7 @@ UserSchema.pre("save", async function () {
 
 UserSchema.methods.createJWTToken = function () {
 	return jwt.sign(
-		{ _id: this._id, username: this.username },
+		{ _id: this._id, name: this.name },
 		process.env.JWT_SECRET,
 		{ expiresIn: process.env.JWT_LIFETIME }
 	);

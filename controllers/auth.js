@@ -3,10 +3,10 @@ const { BadRequestError, UnauthenticatedError } = require("../errors");
 const sendToken = require("../utils");
 
 const register = async (req, res) => {
-	const { username, email, password } = req.body;
+	const { name, email, password } = req.body;
 
-	if (!(username && email && password)) {
-		throw new BadRequestError("Please provide username, email, password");
+	if (!(name && email && password)) {
+		throw new BadRequestError("Please provide name, email, password");
 	}
 
 	const emailAlreadyExists = await User.findOne({ email });
@@ -17,7 +17,7 @@ const register = async (req, res) => {
 	const isFirstAccount = (await User.countDocuments({})) === 0;
 	const role = isFirstAccount ? "admin" : "user";
 
-	const user = await User.create({ username, email, password, role });
+	const user = await User.create({ name, email, password, role });
 
 	sendToken(user, 201, res, "Registered successfully");
 };
