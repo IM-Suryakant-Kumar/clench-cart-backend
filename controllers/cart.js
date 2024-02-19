@@ -1,64 +1,73 @@
-const Cart = require("../models/Cart");
-const Product = require("../models/Product");
-const { StatusCodes } = require("http-status-codes");
+const { Cart, Product } = require("../models");
 
-// CREATE CART
-const createCart = async (req, res) => {
-    let { productId, color, size, quantity } = req.body
-
-    const product = await Product.findById(productId)
-
-    !color && !size && !quantity 
-        && ( color = product.color[0],  size  = product.size[0],  quantity  = 1)
-
-    await Cart.create({ userId: req.user._id, productId, color, size, quantity });
-
-	res.status(StatusCodes.CREATED).json({ msg: "Item added to cart" });
+const getAllCarts = async (req, res) => {
+  const carts = await Cart.find();
+  res.status(200).json({ success: true, carts });
 };
-// GET USER CARTS
+
 const getUserCarts = async (req, res) => {
-	const carts = await Cart.find({ userId: req.user._id });
-    let products = []
-    let totalQuantity = 0
-    let totalPrice = 0
-    // console.log(carts)
+  const carts = await Cart.find({ userId: req.user._id });
+  let products = [];
+  let totalQuantity = 0;
+  let totalPrice = 0;
 
-    for (let cart of carts) {
-        let { _id, productId, quantity, color, size } = cart
-        
-        let { title, desc, img, price } = await Product.findById(productId)
-        
-        products.push({ _id, productId, title, desc, img, price, quantity, color, size })
-        
-        totalQuantity += 1
-        totalPrice += price
-    }
-    // console.log({ products, totalQuantity, totalPrice })
-    
-	res.status(StatusCodes.OK).json({ products, totalQuantity, totalPrice });
+  for (let cart of carts) {
+    let { _id, productId, quantity, color, size } = cart;
+
+    let { title, desc, img, price } = await Product.findById(productId);
+
+    products.push({
+      _id,
+      productId,
+      title,
+      desc,
+      img,
+      price,
+      quantity,
+      color,
+      size,
+    });
+
+    totalQuantity += 1;
+    totalPrice += price;
+  }
+
+  res.status(200).json({ success: true, products, totalQuantity, totalPrice });
 };
-// UPDATE CART
+
+const createCart = async (req, res) => {
+	let { productId, color, size, quantity } = req.body;
+
+	const product = await Product.findById(productId);
+
+	!color &&
+		!size &&
+		!quantity &&
+		((color = product.color[0]), (size = product.size[0]), (quantity = 1));
+
+	await Cart.create({ userId: req.user._id, productId, color, size, quantity });
+
+	res.status(201).json({ success: true, message: "Item added to cart" });
+};
+
+
 const updateCart = async (req, res) => {
 	const cart = await Cart.findByIdAndUpdate(req.params.id, req.body, {
-		new: true
+		new: true,
 	});
-	res.status(StatusCodes.OK).json(cart);
-};
-// DELETE CART
-const deleteCart = async (req, res) => {
-	await Cart.findByIdAndDelete(req.params.id);
-	res.status(StatusCodes.OK).json({ msg: "Item removed" });
-};
-// GET ALL CARTS
-const getAllCarts = async (req, res) => {
-	const carts = await Cart.find();
-	res.status(StatusCodes.OK).json(carts);
+	res.status(200).json({ success: true, cart });
 };
 
+const deleteCart = async (req, res) => {
+	await Cart.findByIdAndDelete(req.params.id);
+	res.status(200).json({ success: true, message: "Item removed from cart" });
+};
+
+
 module.exports = {
-	createCart,
+	getAllCarts,
 	getUserCarts,
+	createCart,
 	updateCart,
 	deleteCart,
-	getAllCarts
 };

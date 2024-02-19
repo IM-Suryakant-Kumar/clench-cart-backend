@@ -1,24 +1,19 @@
 const express = require("express");
 const router = express.Router();
+const { authenticateUser, authorizePermission } = require("../middlewares");
 const {
-	createProduct,
 	getAllProducts,
-	getProduct,
+	createProduct,
 	updateProduct,
-	deleteProduct
-} = require("../controllers/product");
-const {
-	authenticateUser,
-	authorizePermission
-} = require("../middleware/authentication");
+	deleteProduct,
+} = require("../controllers");
 
 router
 	.route("/")
-	.post([authenticateUser, authorizePermission("admin")], createProduct)
-	.get(getAllProducts);
+	.get(getAllProducts)
+	.post([authenticateUser, authorizePermission("admin")], createProduct);
 router
 	.route("/:id")
-	.get(getProduct)
 	.patch([authenticateUser, authorizePermission("admin")], updateProduct)
 	.delete([authenticateUser, authorizePermission("admin")], deleteProduct);
 

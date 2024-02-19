@@ -1,17 +1,16 @@
-const router = require("express").Router()
+const router = require("express").Router();
 
-const { 
-    createWishlist, 
-    getAllWishlist,
-    deleteWishlist 
-} = require("../controllers/wishlist")
-const { authenticateUser } = require("../middleware/authentication")
+const { authenticateUser } = require("../middlewares");
+const {
+	getAllWishlist,
+	createWishlist,
+	deleteWishlist,
+} = require("../controllers/wishlist");
 
-router.route("/")
-    .post(authenticateUser, createWishlist)
-    .get(authenticateUser, getAllWishlist)
+router
+	.route("/")
+	.get(authenticateUser, getAllWishlist)
+	.post(authenticateUser, createWishlist);
+router.route("/:id").delete(authenticateUser, deleteWishlist);
 
-router.route("/:id")
-    .delete(authenticateUser, deleteWishlist)
-
-module.exports = router
+module.exports = router;
