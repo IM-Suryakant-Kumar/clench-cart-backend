@@ -72,7 +72,7 @@ const stripeCheckout = async (req, res) => {
 		// },
 		line_items: line_items,
 		mode: "payment",
-		success_url: `${process.env.CLIENT_URL}/success`,
+		success_url: `${process.env.CLIENT_URL}/success?payment=true`,
 		cancel_url: `${process.env.CLIENT_URL}/cart`,
 	});
 
